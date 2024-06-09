@@ -1,3 +1,7 @@
+package main.java.ru.practicum.tasktracker.tasks;
+
+import main.java.ru.practicum.tasktracker.enums.Status;
+
 public class Task {
 
     private static int idCounter = 0;
@@ -9,6 +13,7 @@ public class Task {
 
     public Task(String title, String description) {
         this.id = ++idCounter;
+
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
@@ -16,6 +21,8 @@ public class Task {
 
     public Task(int id, String title, String description, Status status) {
         this.id = id;
+        idCounter++;
+
         this.title = title;
         this.description = description;
         this.status = status;

@@ -1,3 +1,7 @@
+package main.java.ru.practicum.tasktracker.tasks;
+
+import main.java.ru.practicum.tasktracker.enums.Status;
+
 public class Subtask extends Task {
 
     private int epicId;
@@ -9,6 +13,9 @@ public class Subtask extends Task {
 
     public Subtask(int id, String title, String description, Status status, int epicId) {
         super(id, title, description, status);
+        if (id == epicId) {
+            throw new IllegalArgumentException("Подзадача не может быть своим же эпиком");
+        }
         this.epicId = epicId;
     }
 

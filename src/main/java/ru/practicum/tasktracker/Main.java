@@ -1,6 +1,16 @@
+package main.java.ru.practicum.tasktracker;
+
+import main.java.ru.practicum.tasktracker.managers.TaskManager;
+import main.java.ru.practicum.tasktracker.enums.Status;
+import main.java.ru.practicum.tasktracker.managers.Managers;
+import main.java.ru.practicum.tasktracker.tasks.Epic;
+import main.java.ru.practicum.tasktracker.tasks.Subtask;
+import main.java.ru.practicum.tasktracker.tasks.Task;
+
 public class Main {
+
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
         // Простые задачи
         Task task1 = new Task("Задача 1", "Описание задачи 1");
@@ -27,18 +37,26 @@ public class Main {
         taskManager.createSubtask(subtask3);
 
         System.out.println("Все задачи:");
-        for (Task task : taskManager.getAllTasks()) {
-            System.out.println(task);
+        for (Task task : taskManager.getTasks()) {
+            // Используем getTask(), чтобы проверить историю
+            System.out.println(taskManager.getTask(task.getId()));
         }
 
         System.out.println("\nВсе подзадачи:");
-        for (Subtask subtask : taskManager.getAllSubtasks()) {
-            System.out.println(subtask);
+        for (Subtask subtask : taskManager.getSubtasks()) {
+            // Используем getSubtask(), чтобы проверить историю
+            System.out.println(taskManager.getSubtask(subtask.getId()));
         }
 
         System.out.println("\nВсе эпики:");
-        for (Epic epic : taskManager.getAllEpics()) {
-            System.out.println(epic);
+        for (Epic epic : taskManager.getEpics()) {
+            // Используем getEpic(), чтобы проверить историю
+            System.out.println(taskManager.getEpic(epic.getId()));
+        }
+
+        System.out.println("\nИстория:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
         }
 
         // Изменение статусов
@@ -57,36 +75,36 @@ public class Main {
         taskManager.updateSubtask(subtask3);
 
         System.out.println("\nВсе задачи после изменения статусов:");
-        for (Task task : taskManager.getAllTasks()) {
+        for (Task task : taskManager.getTasks()) {
             System.out.println(task);
         }
 
         System.out.println("\nВсе подзадачи после изменения статусов:");
-        for (Subtask subtask : taskManager.getAllSubtasks()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
 
         System.out.println("\nВсе эпики после изменения статусов подзадач:");
-        for (Epic epic : taskManager.getAllEpics()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
 
         // Удаление задачи и эпика
-        taskManager.deleteTaskById(task2.getId());
-        taskManager.deleteEpicById(epic1.getId());
+        taskManager.deleteTask(task2.getId());
+        taskManager.deleteEpic(epic1.getId());
 
         System.out.println("\nВсе задачи после удаления:");
-        for (Task task : taskManager.getAllTasks()) {
+        for (Task task : taskManager.getTasks()) {
             System.out.println(task);
         }
 
         System.out.println("\nВсе подзадачи после удаления:");
-        for (Subtask subtask : taskManager.getAllSubtasks()) {
+        for (Subtask subtask : taskManager.getSubtasks()) {
             System.out.println(subtask);
         }
 
         System.out.println("\nВсе эпики после удаления:");
-        for (Epic epic : taskManager.getAllEpics()) {
+        for (Epic epic : taskManager.getEpics()) {
             System.out.println(epic);
         }
     }

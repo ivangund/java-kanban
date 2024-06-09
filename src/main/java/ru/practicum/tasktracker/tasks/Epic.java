@@ -1,5 +1,8 @@
+package main.java.ru.practicum.tasktracker.tasks;
+
 import java.util.ArrayList;
 import java.util.List;
+import main.java.ru.practicum.tasktracker.enums.Status;
 
 public class Epic extends Task {
 
@@ -10,11 +13,19 @@ public class Epic extends Task {
         this.subtaskIds = new ArrayList<>();
     }
 
+    public Epic(int id, String title, String description, Status status) {
+        super(id, title, description, status);
+        this.subtaskIds = new ArrayList<>();
+    }
+
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }
 
     public void addSubtaskId(int subtaskId) {
+        if (subtaskId == getId()) {
+            throw new IllegalArgumentException("Эпик не может содержать себя в качестве подзадачи");
+        }
         subtaskIds.add(subtaskId);
     }
 
