@@ -10,6 +10,7 @@ import main.java.ru.practicum.tasktracker.tasks.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class HistoryManagerTests {
@@ -19,6 +20,43 @@ public class HistoryManagerTests {
     @BeforeEach
     void setUp() {
         taskManager = new InMemoryTaskManager();
+    }
+
+    @Test
+    void testAddTaskToHistory() {
+        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task2 = new Task("Задача 2", "Описание задачи 2");
+
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+
+        taskManager.getTask(task1.getId());
+        taskManager.getTask(task2.getId());
+
+        List<Task> history = taskManager.getHistory();
+        assertEquals(2, history.size(), "История должна содержать две задачи.");
+        assertEquals(task1, history.get(0), "Первая задача в истории должна быть task1.");
+        assertEquals(task2, history.get(1), "Вторая задача в истории должна быть task2.");
+    }
+
+    @Test
+    void testRemoveTaskFromHistory() {
+        Task task1 = new Task("Задача 1", "Описание задачи 1");
+        Task task2 = new Task("Задача 2", "Описание задачи 2");
+
+        taskManager.createTask(task1);
+        taskManager.createTask(task2);
+
+        taskManager.getTask(task1.getId());
+        taskManager.getTask(task2.getId());
+
+        taskManager.deleteTask(task1.getId());
+        List<Task> history = taskManager.getHistory();
+
+        assertEquals(1, history.size(),
+                "История должна содержать одну задачу после удаления task1.");
+        assertEquals(task2, history.getFirst(),
+                "Единственная оставшаяся задача в истории должна быть task2.");
     }
 
     @Test
