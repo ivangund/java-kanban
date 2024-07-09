@@ -179,4 +179,36 @@ public class InMemoryTaskManagerTests {
         assertEquals(epic.getStatus(), retrievedEpic.getStatus(),
                 "Статус эпика не должен изменяться.");
     }
+
+    @Test
+    void testSubtaskIdRemovedFromEpic() {
+        Epic epic = new Epic("Эпик", "Описание");
+        taskManager.createEpic(epic);
+
+        Subtask subtask = new Subtask("Подзадача", "Описание", epic.getId());
+        Subtask createdSubtask = taskManager.createSubtask(subtask);
+        int subtaskId = createdSubtask.getId();
+
+        taskManager.deleteSubtask(subtaskId);
+
+        Epic retrievedEpic = taskManager.getEpic(epic.getId());
+        assertFalse(retrievedEpic.getSubtaskIds().contains(subtaskId),
+                "ID подзадачи не должен сохраняться в эпике после её удаления.");
+    }
+
+    @Test
+    void testSubtaskRemovedFromHistory() {
+        Epic epic = new Epic("Эпик", "Описание");
+        taskManager.createEpic(epic);
+
+        Subtask subtask = new Subtask("Подзадача", "Описание", epic.getId());
+        Subtask createdSubtask = taskManager.createSubtask(subtask);
+        taskManager.getSubtask(createdSubtask.getId());
+
+        taskManager.deleteSubtask(createdSubtask.getId());
+
+        List<Task> history = taskManager.getHistory();
+        assertFalse(history.contains(createdSubtask),
+                "Подзадача не должна сохраняться в истории после её удаления.");
+    }
 }
