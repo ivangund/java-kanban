@@ -4,9 +4,7 @@ import java.util.List;
 import main.java.ru.practicum.tasktracker.enums.Status;
 import main.java.ru.practicum.tasktracker.managers.InMemoryTaskManager;
 import main.java.ru.practicum.tasktracker.managers.TaskManager;
-import main.java.ru.practicum.tasktracker.tasks.Epic;
-import main.java.ru.practicum.tasktracker.tasks.Subtask;
-import main.java.ru.practicum.tasktracker.tasks.Task;
+import main.java.ru.practicum.tasktracker.tasks.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTests {
 
-    private TaskManager taskManager;
+    protected TaskManager taskManager;
 
     @BeforeEach
     void setUp() {
