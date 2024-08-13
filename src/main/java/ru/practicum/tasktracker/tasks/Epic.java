@@ -1,5 +1,7 @@
 package main.java.ru.practicum.tasktracker.tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.ru.practicum.tasktracker.enums.Status;
@@ -7,6 +9,7 @@ import main.java.ru.practicum.tasktracker.enums.Status;
 public class Epic extends Task {
 
     private final List<Integer> subtaskIds;
+    private LocalDateTime endTime;
 
     public Epic(String title, String description) {
         super(title, description);
@@ -34,6 +37,25 @@ public class Epic extends Task {
     }
 
     @Override
+    public Duration getDuration() {
+        return super.getDuration() != null ? super.getDuration() : Duration.ZERO;
+    }
+
+    @Override
+    public LocalDateTime getStartTime() {
+        return super.getStartTime();
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
     public String toString() {
         return "Epic{" +
                 "subtaskIds=" + subtaskIds +
@@ -41,6 +63,9 @@ public class Epic extends Task {
                 ", title='" + getTitle() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
+                ", duration=" + getDuration().toMinutes() +
+                ", startTime=" + getStartTime() +
+                ", endTime=" + getEndTime() +
                 '}';
     }
 }

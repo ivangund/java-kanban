@@ -1,5 +1,7 @@
-package test.java.ru.practicum.tasktracker;
+package test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import main.java.ru.practicum.tasktracker.enums.Status;
 import main.java.ru.practicum.tasktracker.managers.InMemoryTaskManager;
@@ -208,5 +210,31 @@ public class InMemoryTaskManagerTests {
         List<Task> history = taskManager.getHistory();
         assertFalse(history.contains(createdSubtask),
                 "Подзадача не должна сохраняться в истории после её удаления.");
+    }
+
+    @Test
+    void testOverlappingSubtasks() {
+        Epic epic = new Epic("Эпик", "Описание");
+        taskManager.createEpic(epic);
+
+        Subtask subtask1 = new Subtask(
+                "Подзадача 1",
+                "Описание подзадачи 1",
+                Duration.ofHours(3),
+                LocalDateTime.now().plusDays(1),
+                epic.getId()
+        );
+        Subtask subtask2 = new Subtask(
+                "Подзадача 2",
+                "Описание подзадачи 2",
+                Duration.ofHours(2),
+                LocalDateTime.now().plusDays(1).plusHours(1),
+                epic.getId()
+        );
+
+        taskManager.createSubtask(subtask1);
+
+        assertThrows(IllegalArgumentException.class, () -> taskManager.createSubtask(subtask2),
+                "Задача пересекается по времени с другой задачей");
     }
 }
