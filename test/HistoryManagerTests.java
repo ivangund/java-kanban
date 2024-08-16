@@ -1,4 +1,4 @@
-package test.java.ru.practicum.tasktracker;
+package test;
 
 import java.util.List;
 import main.java.ru.practicum.tasktracker.enums.Status;

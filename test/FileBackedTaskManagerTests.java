@@ -1,9 +1,9 @@
-package test.java.ru.practicum.tasktracker;
+package test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import main.java.ru.practicum.tasktracker.enums.Status;
+import main.java.ru.practicum.tasktracker.exceptions.ManagerSaveException;
 import main.java.ru.practicum.tasktracker.managers.FileBackedTaskManager;
 import main.java.ru.practicum.tasktracker.managers.TaskManager;
 import main.java.ru.practicum.tasktracker.tasks.*;
@@ -81,5 +81,15 @@ public class FileBackedTaskManagerTests extends InMemoryTaskManagerTests {
         assertEquals(2, subtasks.size(), "Должно быть две подзадачи.");
         assertTrue(subtasks.contains(subtask1), "Должна присутствовать подзадача 1.");
         assertTrue(subtasks.contains(subtask2), "Должна присутствовать подзадача 2.");
+    }
+
+    @Test
+    void testWrongFilePath() {
+        taskManager = new FileBackedTaskManager(new File(""));
+
+        Task task = new Task("Задача", "Описание");
+
+        assertThrows(ManagerSaveException.class, () -> taskManager.createTask(task),
+                "Не удалось сохранить задачи в файл");
     }
 }
