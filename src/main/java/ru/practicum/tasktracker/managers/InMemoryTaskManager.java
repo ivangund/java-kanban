@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import main.java.ru.practicum.tasktracker.exceptions.OverlapException;
 import main.java.ru.practicum.tasktracker.tasks.*;
 import main.java.ru.practicum.tasktracker.enums.Status;
 import java.time.LocalDateTime;
@@ -308,7 +310,7 @@ public class InMemoryTaskManager implements TaskManager {
                 });
 
         if (hasOverlap) {
-            throw new IllegalArgumentException("Задача пересекается по времени с другой задачей");
+            throw new OverlapException("Задача пересекается по времени с другой задачей");
         }
     }
 }
